@@ -100,8 +100,8 @@ app.post("/poslatZpravu", (req, res) => {
     if(req.session.loggedin === true) {
     let str = req.body.prijemci;
     let prijemci = str.split(",");
-    zprava = req.body.zprava;
-    predmet = req.body.predmet;
+    let  zprava = req.body.zprava;
+    let predmet = req.body.predmet;
     
     let datum = new Date();
     let mysqlDate = datum.toISOString().slice(0, 10);
@@ -115,8 +115,8 @@ connection.query('SELECT id_uzivatel from uzivatele WHERE jmeno =  ? ' , [prijem
     idPrijimatel = results[0].id_uzivatel
  
 
-    connection.query('INSERT INTO zpravy(predmet,id_prijimatel,id_odesilatel,textt)  VALUES(?,?,?,?)' , [predmet,idPrijimatel,idOdesilatel,zprava], function(error, results) {
-        console.log('uspech');
+    connection.query('INSERT INTO zpravy(predmet,id_prijimatel,id_odesilatel,textt,datum,cas)  VALUES(?,?,?,?,?,?)' , [predmet,idPrijimatel,idOdesilatel,zprava,mysqlDate,mysqlTime], function(error, results) {
+       
                 
                 });
 
