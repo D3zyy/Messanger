@@ -43,4 +43,6 @@
       }.odhlasit {
         margin-left: auto;
       }
-     
+      a{
+        filter: blur(5px);
+      }

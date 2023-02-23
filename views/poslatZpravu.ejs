@@ -1,0 +1,28 @@
+<%-include("head")-%>
+<%-include("navigace")-%>
+
+<link rel="stylesheet" href="../public/formular.css">
+
+
+<div id="formular">
+    <form action="/poslatZpravu" method="post">
+        <div>
+            <label for="prijemci">Příjemci:</label>
+            <input type="text" id="prijemci" name="prijemci" required placeholder="Příjemci...">
+        </div>
+        <div>
+            <label for="zprava">Předmět:</label>
+            <input type="text" id="prijemci" name="predmet" required placeholder="Zadejte předmět...">
+        </div>
+        <div>
+            <label for="zprava">Zpráva:</label>
+            <textarea id="zprava" name="zprava" required placeholder="Zadejte text zprávy..."></textarea>
+        </div>
+        <div>
+            <button  type="submit">Odeslat</button>
+        </div>
+    </form>
+</div>
+
+
+<%-include("footer")-%>
