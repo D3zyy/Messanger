@@ -23,11 +23,11 @@ app.use(session({
 }));
 
 const connection  = mysql.createConnection({
-	host : "sql8.freemysqlhosting.net",
-	user : "sql8597540",
-	password : "JUmqiUcLHW",
-	port : "3306",
-	database :  "sql8597540",
+	  host : "localhost",
+    user : "root",
+    password : "rootroot",
+    port : "3306",
+    database :  "messanger",
 
 });
 
@@ -116,7 +116,7 @@ connection.query('SELECT id_uzivatel from uzivatele WHERE jmeno =  ? ' , [prijem
  
 
     connection.query('INSERT INTO zpravy(predmet,id_prijimatel,id_odesilatel,textt,datum,cas)  VALUES(?,?,?,?,?,?)' , [predmet,idPrijimatel,idOdesilatel,zprava,mysqlDate,mysqlTime], function(error, results) {
-       
+       res.send();
                 
                 });
 
