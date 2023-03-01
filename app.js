@@ -80,20 +80,7 @@ app.post("/", (req, res) => {
 });
 
 
-app.get("/poslatZpravu", (req, res) => {
-  
-  
-    if(req.session.loggedin === true) {
-       
-res.render("poslatZpravu",{jmeno : req.session.username} );
-           
-        
-    }else {
-        res.redirect("/");
-    }
 
-
-});
 app.post("/poslatZpravu", (req, res) => {
   
   
@@ -116,7 +103,7 @@ connection.query('SELECT id_uzivatel from uzivatele WHERE jmeno =  ? ' , [prijem
  
 
     connection.query('INSERT INTO zpravy(predmet,id_prijimatel,id_odesilatel,textt,datum,cas)  VALUES(?,?,?,?,?,?)' , [predmet,idPrijimatel,idOdesilatel,zprava,mysqlDate,mysqlTime], function(error, results) {
-       res.send();
+      
                 
                 });
 
@@ -125,6 +112,7 @@ connection.query('SELECT id_uzivatel from uzivatele WHERE jmeno =  ? ' , [prijem
 
     });
     }
+    res.redirect("odeslaneZpravy")
 });
    
     
@@ -136,7 +124,46 @@ connection.query('SELECT id_uzivatel from uzivatele WHERE jmeno =  ? ' , [prijem
 
 });
 
+app.get("/odeslaneZpravy", (req, res) => {
+  
+  
+    if(req.session.loggedin === true) {
+        connection.query("SELECT id_zprava,viditelne,prijimatel.jmeno AS jmeno_prijemce, odesilatel.jmeno AS jmeno_odesilatele, textt, DATE_FORMAT(datum, '%d.%m.%Y') AS den_mesic_rok, TIME_FORMAT(cas, '%H:%i') AS hodiny_minuty, predmet FROM zpravy JOIN uzivatele AS prijimatel ON zpravy.id_prijimatel = prijimatel.id_uzivatel JOIN uzivatele AS odesilatel ON zpravy.id_odesilatel = odesilatel.id_uzivatel where id_odesilatel = (SELECT id_uzivatel from uzivatele where jmeno = ?)", req.session.username,function(error, results) {
+            if (error) throw error;
+        
+            zpravy = results;
+           
+        
+            res.render("odeslaneZpravy", { jmeno: req.session.username });  
+        });
+        
 
+
+
+           
+        
+    }else {
+        res.redirect("/");
+    }
+
+
+});
+
+app.post("/skrytZpravu", (req, res) => {
+    if(req.session.loggedin === true){
+        console.log(req.body.id_zprava);
+        connection.query("UPDATE zpravy set viditelne = ? where id_zprava = ?", ['ne',req.body.id_zprava],function(error, results){
+
+            res.redirect("/odeslaneZpravy");
+
+
+        });
+
+        
+    } else{
+     res.redirect("/");
+    }
+});
 
 
 app.get("/poslatZpravu", (req, res) => {

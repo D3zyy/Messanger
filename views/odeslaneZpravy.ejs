@@ -1,0 +1,30 @@
+<%-include("head")-%>
+<%-include("navigace")-%>
+
+<script src="../public/scripts.js"></script>
+
+<% for (var i = 0; i < zpravy.length; i++) { %>
+    <% if (zpravy[i].viditelne === 'ano') { %>
+ 
+        <div style="text-align: center;  "> 
+            <div style="min-width: 250px; min-height: 130px; margin: 9px 0; padding: 20px; display: inline-block; text-align: center; background-color: #efeded; border-radius: 10%;">
+                <span style="font-size: 39px; ">📨</span>  <br>
+                Datum : <%- zpravy[i].den_mesic_rok -%>   <br>
+              Čas : <%- zpravy[i].hodiny_minuty -%>  <br>
+              Příjemce : <%- zpravy[i].jmeno_prijemce -%>  <br>
+              Předmět : <%- zpravy[i].predmet -%> <br>
+              Zpráva : <%- zpravy[i].textt -%>  <br>
+              <input style="margin-top: 20px; color: red;" onclick="skrytZpravu('<%= zpravy[i].id_zprava %>')" type="button" value="Smazat zprávu">
+            </div>
+          </div>
+          
+  <br>
+  
+
+ <% } %>
+    <% } %>
+
+
+
+
+<%-include("footer")-%>
