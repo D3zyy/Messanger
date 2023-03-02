@@ -149,12 +149,55 @@ app.get("/odeslaneZpravy", (req, res) => {
 
 });
 
+
+app.get("/doruceneZpravy", (req, res) => {
+  
+  
+    if(req.session.loggedin === true) {
+        connection.query("SELECT id_zprava,viditelneDorucene,prijimatel.jmeno AS jmeno_prijemce, odesilatel.jmeno AS jmeno_odesilatele, textt, DATE_FORMAT(datum, '%d.%m.%Y') AS den_mesic_rok, TIME_FORMAT(cas, '%H:%i') AS hodiny_minuty, predmet FROM zpravy JOIN uzivatele AS prijimatel ON zpravy.id_prijimatel = prijimatel.id_uzivatel JOIN uzivatele AS odesilatel ON zpravy.id_odesilatel = odesilatel.id_uzivatel where id_prijimatel = (SELECT id_uzivatel from uzivatele where jmeno = ?)", req.session.username,function(error, results) {
+            if (error) throw error;
+     
+            zpravy = results;
+           
+        
+            res.render("doruceneZpravy", { jmeno: req.session.username });  
+        });
+        
+
+
+
+           
+        
+    }else {
+        res.redirect("/");
+    }
+
+
+});
+
+
 app.post("/skrytZpravu", (req, res) => {
     if(req.session.loggedin === true){
-        console.log(req.body.id_zprava);
+        
         connection.query("UPDATE zpravy set viditelne = ? where id_zprava = ?", ['ne',req.body.id_zprava],function(error, results){
 
-            res.redirect("/odeslaneZpravy");
+            res.send();
+
+
+        });
+
+        
+    } else{
+     res.redirect("/");
+    }
+});
+
+app.post("/skrytZpravuDorucene", (req, res) => {
+    if(req.session.loggedin === true){
+       
+        connection.query("UPDATE zpravy set viditelneDorucene = ? where id_zprava = ?", ['ne',req.body.id_zprava],function(error, results){
+
+            res.send();
 
 
         });
