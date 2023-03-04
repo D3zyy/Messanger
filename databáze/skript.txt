@@ -1,0 +1,23 @@
+CREATE TABLE `uzivatele` (
+  `id_uzivatel` int NOT NULL AUTO_INCREMENT,
+  `jmeno` varchar(40) NOT NULL,
+  `heslo` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`id_uzivatel`),
+  UNIQUE KEY `jmeno` (`jmeno`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+
+CREATE TABLE `zpravy` (
+  `id_zprava` int NOT NULL AUTO_INCREMENT,
+  `predmet` varchar(80) NOT NULL,
+  `id_prijimatel` int NOT NULL,
+  `id_odesilatel` int NOT NULL,
+  `textt` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `datum` date DEFAULT NULL,
+  `cas` time DEFAULT NULL,
+  PRIMARY KEY (`id_zprava`),
+  KEY `id_prijimatel` (`id_prijimatel`),
+  KEY `id_odesilatel` (`id_odesilatel`),
+  CONSTRAINT `zpravy_ibfk_1` FOREIGN KEY (`id_prijimatel`) REFERENCES `uzivatele` (`id_uzivatel`),
+  CONSTRAINT `zpravy_ibfk_2` FOREIGN KEY (`id_odesilatel`) REFERENCES `uzivatele` (`id_uzivatel`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 
+
